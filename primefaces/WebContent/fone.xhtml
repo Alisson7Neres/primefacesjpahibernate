@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Telefones</title>
+</head>
+<h:body>
+	
+	<h:link value="Página JSF" outcome="index.jsf"/>
+	<br/>
+	<h:link value="Página PrimeFaces" outcome="primefaces.jsf"/>
+
+	<h:form id="formulario">
+	<br/>
+		<h:panelGrid columns="2">
+			<h:outputLabel>Usuário:</h:outputLabel>
+			<h:outputLabel value="#{telefoneManagedBean.user.nome}"/>
+			
+			<h:outputLabel>Número:</h:outputLabel>
+			<h:inputText value="#{telefoneManagedBean.telefone.numero}"/>
+			
+			<h:outputLabel>Tipo:</h:outputLabel>
+			<h:inputText value="#{telefoneManagedBean.telefone.tipo}"/>
+		</h:panelGrid>
+		
+		<br/>
+		<br/>
+	
+		<h:commandButton value="Salvar" action="#{telefoneManagedBean.salvar}"/>
+	</h:form>
+	<br/>
+	<h:form id="tabelaCarrega">
+	
+		<h:dataTable value="#{telefoneManagedBean.user.telefoneUsers}" var="telefonePessoa" cellpadding="5" border="1">
+			<h:column>
+				<f:facet name="header">Usuário</f:facet>
+					<h:outputLabel value="#{telefoneManagedBean.user.nome}"/>
+			</h:column>
+				
+				<h:column>
+					<f:facet name="header">Número</f:facet>
+					<h:outputLabel value="#{telefonePessoa.numero}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Tipo</f:facet>
+					<h:outputLabel value="#{telefonePessoa.tipo}"/>
+				</h:column>
+				
+				
+			<h:column>
+				<f:facet name="header">Editar</f:facet>
+				<h:commandLink value="">
+					<f:setPropertyActionListener value="#{telefonePessoa}"
+						target="#{telefoneManagedBean.telefone}"/>
+				<h:graphicImage url="/resources/icon/edit.png" width="20" height="20"/>		
+				</h:commandLink>
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Delete</f:facet>
+				<h:commandLink 
+					action="#{telefoneManagedBean.removeTelefone}"> 
+					<f:setPropertyActionListener value="#{telefonePessoa}"
+						target="#{telefoneManagedBean.telefone}" />
+				<h:graphicImage url="/resources/icon/delete.png" width="20" height="20" alt="deletar"/>		
+				</h:commandLink>
+			</h:column>
+	</h:dataTable>
+	</h:form>
+
+
+</h:body>
+</html>

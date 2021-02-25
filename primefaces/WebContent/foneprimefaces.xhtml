@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui" >
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:title></h:title>
+<script>
+	function habilitarButton(){
+		document.getElementById('botaoAtualizar').disabled = false
+	}
+</script>
+</h:head>
+<h:body>
+	
+	<p:breadCrumb>
+		<p:menuitem value="Página JSF" url="index.jsf"/>
+		<p:menuitem value="Página PrimeFaces" url="primefaces.jsf"/>
+	</p:breadCrumb>
+
+	<h:form id="formulario">
+	<br/>
+	<p:growl autoUpdate="true" showDetail="true"/>
+		<p:panelGrid columns="2">
+			<p:outputLabel>Usuário:</p:outputLabel>
+			<p:outputLabel value="#{telefoneManagedBean.user.nome}"/>
+			
+			<p:outputLabel>Número:</p:outputLabel>
+			<p:inputMask value="#{telefoneManagedBean.telefone.numero}"
+			mask="99 9 9999-9999"/>
+			
+			<p:outputLabel>Tipo:</p:outputLabel>
+			<p:selectOneMenu value="#{telefoneManagedBean.telefone.tipo}" required="true">
+				<f:selectItem itemLabel="Celular" itemValue="Celular"/>
+			</p:selectOneMenu>
+		</p:panelGrid>
+		
+		<br/>
+		<br/>
+	
+		<p:commandButton value="Salvar" ajax="false" action="#{telefoneManagedBean.salvar}"/>
+		<p:commandButton value="Atualizar"  action="#{telefoneManagedBean.atualizar}" 
+		disabled="true" id="botaoAtualizar" />
+	</h:form>
+	<br/>
+	<h:form id="tabelaCarrega">
+	
+		<p:dataTable value="#{telefoneManagedBean.user.telefoneUsers}" var="telefonePessoa" id="pessoaTelefone">
+			<p:column>
+				<f:facet name="header">Usuário</f:facet>
+					<p:outputLabel value="#{telefoneManagedBean.user.nome}"/>
+			</p:column>
+				
+				<p:column>
+					<f:facet name="header">Número</f:facet>
+					<p:outputLabel value="#{telefonePessoa.numero}"/>
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">Tipo</f:facet>
+					<p:outputLabel value="#{telefonePessoa.tipo}"/>
+				</p:column>
+				
+				
+			<p:column headerText="Editar">
+				<center>
+				<p:commandLink immediate="true" id="botaoEditar">
+					<f:setPropertyActionListener value="#{telefonePessoa}"
+						target="#{telefoneManagedBean.telefone}"/>
+				<h:graphicImage url="/resources/icon/edit.png" width="20" height="20"/>
+				<f:ajax execute="botaoEditar" render=":formulario" />		
+				</p:commandLink>
+				</center>
+			</p:column>
+			
+			<p:column headerText="Delete">
+				<center>
+				<h:commandLink 
+					action="#{telefoneManagedBean.removeTelefone}"> 
+					<f:setPropertyActionListener value="#{telefonePessoa}"
+						target="#{telefoneManagedBean.telefone}" />
+				<h:graphicImage url="/resources/icon/delete.png" width="20" height="20" alt="deletar"/>		
+				</h:commandLink>
+				</center>
+			</p:column>
+	</p:dataTable>
+	</h:form>
+
+
+</h:body>
+</html>
